@@ -52,14 +52,4 @@ describe('jquery-simple-toggle', () => {
       expect($message.text()).toContain('show: box2');
     });
   });
-
-  describe('default value', () => {
-    it('gets and sets defaults', () => {
-      let defaults = $.SimpleToggle.getDefaults();
-      expect(defaults.store).toEqual(null);
-
-      defaults = $.SimpleToggle.setDefaults({store: 'local'});
-      expect(defaults.store).toEqual('local');
-    });
-  });
 });
