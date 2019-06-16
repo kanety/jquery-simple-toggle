@@ -152,7 +152,6 @@ export default class SimpleToggle {
   }
 
   static setDefaults(options) {
-    $.extend(DEFAULTS, options);
-    return DEFAULTS;
+    return $.extend(DEFAULTS, options);
   }
 }
