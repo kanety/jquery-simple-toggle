@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="dist/jquery-simple-toggle.js"></script>
+  <style>
+  .box {
+    border: 1px solid #ccc;
+    height: 100px;
+  }
+  </style>
+</head>
+<body>
+  <h1>Basic use</h1>
+  <div id="basic">
+    <a href="#menu1">menu1</a>
+    <a href="#menu2">menu2</a>
+    <a href="#menu3">menu3</a>
+  </div>
+  <div id="basic_box">
+    <div name="menu1" class="box">box1</div>
+    <div name="menu2" class="box">box2</div>
+    <div name="menu3" class="box">box3</div>
+  </div>
+  <script>
+  $('#basic').simpleToggle({
+    boxContainer: '#basic_box',
+    store: 'session',
+    storeKey: 'test'
+  });
+  </script>
+
+  <h1>Don't hide current box</h1>
+  <div id="dont_hide">
+    <a href="#menu1" class="toggle-current">menu1</a>
+    <a href="#menu2">menu2</a>
+    <a href="#menu3">menu3</a>
+  </div>
+  <div id="dont_hide_box">
+    <div name="menu1" class="box toggle-current">box1</div>
+    <div name="menu2" class="box">box2</div>
+    <div name="menu3" class="box">box3</div>
+  </div>
+  <script>
+  $('#dont_hide').simpleToggle({
+    boxContainer: '#dont_hide_box',
+    hideCurrentBox: false
+  });
+  </script>
+
+  <h1>Callbacks</h1>
+  <div id="callbacks">
+    <a href="#menu1">menu1</a>
+    <a href="#menu2">menu2</a>
+    <a href="#menu3">menu3</a>
+  </div>
+  <div id="callbacks_box">
+    <div name="menu1" class="box">box1</div>
+    <div name="menu2" class="box">box2</div>
+    <div name="menu3" class="box">box3</div>
+  </div>
+  <div id="message"></div>
+  <script>
+  $('#callbacks').simpleToggle({
+    boxContainer: '#callbacks_box'
+  }).on('toggle:show', function(e, $box) {
+    $('#message').append('<div>show: ' + $box.text() + '</div>');
+  }).on('toggle:hide', function(e, $box) {
+    $('#message').append('<div>hide: ' + $box.text() + '</div>');
+  });
+  </script>
+</body>
+</html>
