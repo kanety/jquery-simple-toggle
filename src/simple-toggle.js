@@ -4,7 +4,7 @@ import Store from '@kanety/js-store';
 import { NAMESPACE } from './consts';
 
 const DEFAULTS = {
-  menu: 'a[href]',
+  menu: 'a[href^="#"]',
   menuAttr: 'href',
   panelContainer: 'body',
   panel: '[name]',
