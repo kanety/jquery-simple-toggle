@@ -4,7 +4,7 @@
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="dist/jquery-simple-toggle.js"></script>
   <style>
-  .box {
+  .panel {
     border: 1px solid #ccc;
     height: 100px;
   }
@@ -17,34 +17,34 @@
     <a href="#menu2">menu2</a>
     <a href="#menu3">menu3</a>
   </div>
-  <div id="basic_box">
-    <div name="menu1" class="box">box1</div>
-    <div name="menu2" class="box">box2</div>
-    <div name="menu3" class="box">box3</div>
+  <div id="basic_panel">
+    <div name="menu1" class="panel">panel1</div>
+    <div name="menu2" class="panel">panel2</div>
+    <div name="menu3" class="panel">panel3</div>
   </div>
   <script>
   $('#basic').simpleToggle({
-    boxContainer: '#basic_box',
+    panelContainer: '#basic_panel',
     store: 'session',
     storeKey: 'test'
   });
   </script>
 
-  <h1>Don't hide current box</h1>
+  <h1>Don't hide all panels</h1>
   <div id="dont_hide">
     <a href="#menu1" class="toggle-current">menu1</a>
     <a href="#menu2">menu2</a>
     <a href="#menu3">menu3</a>
   </div>
-  <div id="dont_hide_box">
-    <div name="menu1" class="box toggle-current">box1</div>
-    <div name="menu2" class="box">box2</div>
-    <div name="menu3" class="box">box3</div>
+  <div id="dont_hide_panel">
+    <div name="menu1" class="panel toggle-current">panel1</div>
+    <div name="menu2" class="panel">panel2</div>
+    <div name="menu3" class="panel">panel3</div>
   </div>
   <script>
   $('#dont_hide').simpleToggle({
-    boxContainer: '#dont_hide_box',
-    hideCurrentBox: false
+    panelContainer: '#dont_hide_panel',
+    hidable: false
   });
   </script>
 
@@ -54,19 +54,19 @@
     <a href="#menu2">menu2</a>
     <a href="#menu3">menu3</a>
   </div>
-  <div id="callbacks_box">
-    <div name="menu1" class="box">box1</div>
-    <div name="menu2" class="box">box2</div>
-    <div name="menu3" class="box">box3</div>
+  <div id="callbacks_panel">
+    <div name="menu1" class="panel">panel1</div>
+    <div name="menu2" class="panel">panel2</div>
+    <div name="menu3" class="panel">panel3</div>
   </div>
   <div id="message"></div>
   <script>
   $('#callbacks').simpleToggle({
-    boxContainer: '#callbacks_box'
-  }).on('toggle:show', function(e, $box) {
-    $('#message').append('<div>show: ' + $box.text() + '</div>');
-  }).on('toggle:hide', function(e, $box) {
-    $('#message').append('<div>hide: ' + $box.text() + '</div>');
+    panelContainer: '#callbacks_panel'
+  }).on('panel:show', function(e, $panel) {
+    $('#message').append('<div>show: ' + $panel.text() + '</div>');
+  }).on('panel:hide', function(e, $panel) {
+    $('#message').append('<div>hide: ' + $panel.text() + '</div>');
   });
   </script>
 </body>

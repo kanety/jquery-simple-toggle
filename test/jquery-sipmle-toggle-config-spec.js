@@ -1,5 +1,5 @@
 describe('jquery-simple-toggle-config', () => {
-  describe('default value', () => {
+  describe('config', () => {
     it('gets and sets defaults', () => {
       let defaults = $.SimpleToggle.getDefaults();
       expect(defaults.store).toEqual(null);

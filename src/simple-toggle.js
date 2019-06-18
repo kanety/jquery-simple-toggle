@@ -4,12 +4,12 @@ import Store from '@kanety/js-store';
 import { NAMESPACE } from './consts';
 
 const DEFAULTS = {
-  menuSelector: 'a[href]',
+  menu: 'a[href]',
   menuAttr: 'href',
-  boxContainer: '',
-  boxSelector: '[name]',
-  boxAttr: 'name',
-  hideCurrentBox: true,
+  panelContainer: 'body',
+  panel: '[name]',
+  panelAttr: 'name',
+  hidable: true,
   store: null,
   storeKey: null
 };
@@ -19,7 +19,7 @@ export default class SimpleToggle {
     this.options = $.extend({}, DEFAULTS, options);
 
     this.$menuContainer = $(element);
-    this.$boxContainer = $(this.options.boxContainer);
+    this.$panelContainer = $(this.options.panelContainer);
 
     this.uid = new Date().getTime() + Math.random();
     this.namespace = `${NAMESPACE}-${this.uid}`;
@@ -36,12 +36,12 @@ export default class SimpleToggle {
 
   init() {
     this.$menuContainer.addClass(`${NAMESPACE}-menu`);
-    this.$boxContainer.addClass(`${NAMESPACE}-box`);
+    this.$panelContainer.addClass(`${NAMESPACE}-panel`);
 
-    this.boxes().each((i, elem) => {
-      let $box = $(elem);
-      if (!$box.hasClass('toggle-current')) {
-        $box.hide();
+    this.paneles().each((i, elem) => {
+      let $panel = $(elem);
+      if (!$panel.hasClass('toggle-current')) {
+        $panel.hide();
       }
     });
 
@@ -52,16 +52,16 @@ export default class SimpleToggle {
   }
 
   bind() {
-    this.$menuContainer.on(`click.${this.namespace}`, this.options.menuSelector, (e) => {
+    this.$menuContainer.on(`click.${this.namespace}`, this.options.menu, (e) => {
       let $menu = $(e.currentTarget);
-      let $box = this.findBox($menu.attr(this.options.menuAttr));
-      if ($box.length) {
+      let $panel = this.findPanel($menu.attr(this.options.menuAttr));
+      if ($panel.length) {
         if ($menu.hasClass('toggle-current')) {
-          if (this.options.hideCurrentBox) {
-            this.hide($menu, $box);
+          if (this.options.hidable) {
+            this.hide($menu, $panel);
           }
         } else {
-          this.show($menu, $box);
+          this.show($menu, $panel);
         }
       }
       e.preventDefault();
@@ -73,11 +73,11 @@ export default class SimpleToggle {
   }
 
   menus() {
-    return this.$menuContainer.find(this.options.menuSelector);
+    return this.$menuContainer.find(this.options.menu);
   }
 
-  boxes() {
-    return this.$boxContainer.find(this.options.boxSelector);
+  paneles() {
+    return this.$panelContainer.find(this.options.panel);
   }
 
   findMenu(name) {
@@ -86,9 +86,9 @@ export default class SimpleToggle {
     });
   }
 
-  findBox(name) {
-    return this.boxes().filter((i, box) => {
-      return $(box).attr(this.options.boxAttr).replace(/^#/, '') == name.replace(/^#/, '');
+  findPanel(name) {
+    return this.paneles().filter((i, panel) => {
+      return $(panel).attr(this.options.panelAttr).replace(/^#/, '') == name.replace(/^#/, '');
     });
   }
 
@@ -96,30 +96,30 @@ export default class SimpleToggle {
     return this.menus().filter('.toggle-current');
   }
 
-  currentBox() {
-    return this.boxes().filter('.toggle-current');
+  currentPanel() {
+    return this.paneles().filter('.toggle-current');
   }
 
-  show($menu, $box) {
+  show($menu, $panel) {
     let $currentMenu = this.currentMenu();
-    let $currentBox = this.currentBox();
-    if ($currentMenu.length && $currentBox.length) {
-      this.hide($currentMenu, $currentBox);
+    let $currentPanel = this.currentPanel();
+    if ($currentMenu.length && $currentPanel.length) {
+      this.hide($currentMenu, $currentPanel);
     }
 
     $menu.addClass('toggle-current');
-    $box.addClass('toggle-current').show();
+    $panel.addClass('toggle-current').show();
 
     this.save();
-    this.$menuContainer.trigger('toggle:show', [$box]);
+    this.$menuContainer.trigger('panel:show', [$panel]);
   }
 
-  hide($menu, $box) {
+  hide($menu, $panel) {
     $menu.removeClass('toggle-current');
-    $box.removeClass('toggle-current').hide();
+    $panel.removeClass('toggle-current').hide();
 
     this.save();
-    this.$menuContainer.trigger('toggle:hide', [$box]);
+    this.$menuContainer.trigger('panel:hide', [$panel]);
   }
 
   load() {
@@ -129,18 +129,18 @@ export default class SimpleToggle {
     if (!data) return;
 
     let $menu = this.findMenu(data.name);
-    let $box = this.findBox(data.name);
-    if ($menu.length && $box.length) {
-      this.show($menu, $box);
+    let $panel = this.findPanel(data.name);
+    if ($menu.length && $panel.length) {
+      this.show($menu, $panel);
     }
   }
 
   save() {
     if (!this.store) return;
 
-    let $current = this.currentBox();
+    let $current = this.currentPanel();
     if ($current.length) {
-      let data = { name: $current.attr(this.options.boxAttr) };
+      let data = { name: $current.attr(this.options.panelAttr) };
       this.store.set(data);
     } else {
       this.store.remove();

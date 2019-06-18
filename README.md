@@ -1,6 +1,6 @@
 # jquery-simple-toggle
 
-A jquery plugin for simple toggle boxes.
+A jquery plugin for simple togglable panels.
 
 ## Dependencies
 
@@ -22,10 +22,10 @@ Build html as follows:
   <a href="#menu2">menu2</a>
   <a href="#menu3">menu3</a>
 </div>
-<div id="box">
-  <div name="menu1">box1</div>
-  <div name="menu2">box2</div>
-  <div name="menu3">box3</div>
+<div id="panel">
+  <div name="menu1">panel1</div>
+  <div name="menu2">panel2</div>
+  <div name="menu3">panel3</div>
 </div>
 ```
 
@@ -33,25 +33,25 @@ Then run:
 
 ```javascript
 $('#menu').simpleToggle({
-  boxContainer: '#box'
+  panelContainer: '#panel'
 });
 ```
 
 ### Options
 
-Change selector for menus and boxes:
+Change selector for menus and paneles:
 
 ```javascript
 $('#menu').simpleToggle({
   ...
-  menuSelector: '[href]',
+  menu: '[href]',
   menuAttr: 'href'
-  boxSelector: '[name]',
-  boxAttr: 'name'
+  panel: '[name]',
+  panelAttr: 'name'
 });
 ```
 
-Store current box in the web storage:
+Store current panel in the web storage:
 
 ```javascript
 $('#menu').simpleToggle({
@@ -66,9 +66,9 @@ $('#menu').simpleToggle({
 ```javascript
 $('#menu').simpleToggle({
   ...
-}).on('toggle:show', function(e, $box) {
+}).on('panel:show', function(e, $panel) {
   ...
-}).on('toggle:hide', function(e, $box) {
+}).on('panel:hide', function(e, $panel) {
   ...
 });
 ```
